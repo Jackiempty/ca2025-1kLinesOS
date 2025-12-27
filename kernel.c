@@ -140,10 +140,6 @@ void yield(void) {
   // If there's no runnable process other than the current one, return and continue processing
   if (next == current_proc) return;
 
-  __asm__ __volatile__("csrw sscratch, %[sscratch]\n"
-                       :
-                       : [sscratch] "r"((uint32_t)&next->stack[sizeof(next->stack)]));
-
   __asm__ __volatile__(
       "sfence.vma\n"
       "csrw satp, %[satp]\n"
